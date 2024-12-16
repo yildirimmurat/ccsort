@@ -36,22 +36,6 @@ fn main() {
     write_output(reader, only_uniques).expect("Unexpected: Cannot write output");
 }
 
-fn write_output(reader: Box<dyn BufRead>, only_uniques: bool) -> Result<()> {
-    for line in reader.lines() {
-        let line = line?;
-
-        // Try to write the result to stdout, and ignore BrokenPipe error
-        if let Err(e) = writeln!(stdout(), "{}", line) {
-            return if e.kind() == ErrorKind::BrokenPipe {
-                Ok(()) // Gracefully exit if pipe is closed
-            } else {
-                Err(e) // Propagate other errors
-            }
-        }
-    }
-    Ok(())
-}
-
 fn parse_args(args: &[String]) -> (Vec<String>, Stream) {
     let mut options: Vec<String> = Vec::new();
     let mut stream = Stream::StdinStream(StdinStream::new());
@@ -75,4 +59,32 @@ fn parse_args(args: &[String]) -> (Vec<String>, Stream) {
     }
 
     (options, stream)
+}
+
+fn write_output(reader: Box<dyn BufRead>, only_uniques: bool) -> Result<()> {
+    let mut lines: Vec<String> = Vec::new();
+
+    for line in reader.lines() {
+        let line = line?;
+        lines.push(line);
+    }
+
+    lines.sort();
+
+    if only_uniques {
+        lines.dedup();
+    }
+
+    for line in lines {
+        // Try to write the result to stdout, and ignore BrokenPipe error
+        if let Err(e) = writeln!(stdout(), "{}", line) {
+            return if e.kind() == ErrorKind::BrokenPipe {
+                Ok(()) // Gracefully exit if pipe is closed
+            } else {
+                Err(e) // Propagate other errors
+            }
+        }
+    }
+
+    Ok(())
 }

@@ -7,12 +7,11 @@ A\n\
 ACTUAL\n\
 AGREE\n\
 AGREEMENT\n\
-AND\n\
-";
+AND";
 
     let output = std::process::Command::new("bash")
         .arg("-c")
-        .arg("cargo run -- -u words.txt | uniq | head -n5")
+        .arg("cargo run -- -u tests/words.txt | head -n5")
         .output()
     .expect("failed to execute process");
 
