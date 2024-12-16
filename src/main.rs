@@ -4,6 +4,7 @@ use std::{env, io::{stdin, stdout, ErrorKind, Result, Write}};
 use std::io::{BufRead, BufReader};
 use stream::{Stream, StdinStream};
 use std::process;
+use ccsort::algorithms::{Algorithm, SortingAlgorithm};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -22,10 +23,23 @@ fn main() {
     };
 
     let mut only_uniques = false;
+    let mut algorithm = None; // Default algorithm
     for option in options {
         match option.as_str() {
             "-u" => {
                 only_uniques = true;
+            },
+            "-r" => {
+                algorithm = Some(Algorithm::RadixSort);
+            },
+            "-m" => {
+                algorithm = Some(Algorithm::MergeSort);
+            },
+            "-q" => {
+                algorithm = Some(Algorithm::QuickSort);
+            },
+            "-h" => {
+                algorithm = Some(Algorithm::HeapSort);
             },
             _ => {
                 eprintln!("Unexpected: Unknown option: {}", option);
@@ -33,7 +47,7 @@ fn main() {
         }
     }
 
-    write_output(reader, only_uniques).expect("Unexpected: Cannot write output");
+    write_output(reader, algorithm, only_uniques).expect("Unexpected: Cannot write output");
 }
 
 fn parse_args(args: &[String]) -> (Vec<String>, Stream) {
@@ -61,15 +75,18 @@ fn parse_args(args: &[String]) -> (Vec<String>, Stream) {
     (options, stream)
 }
 
-fn write_output(reader: Box<dyn BufRead>, only_uniques: bool) -> Result<()> {
+fn write_output(reader: Box<dyn BufRead>, algorithm: Option<Algorithm>, only_uniques: bool) -> Result<()> {
     let mut lines: Vec<String> = Vec::new();
-
     for line in reader.lines() {
         let line = line?;
         lines.push(line);
     }
 
-    lines.sort();
+    if let Some(ref algorithm) = algorithm {
+        algorithm.sort(&mut lines);
+    } else {
+        lines.sort(); // Default sort when there is no user choice
+    }
 
     if only_uniques {
         lines.dedup();
