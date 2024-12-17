@@ -37,6 +37,43 @@ which ccsort
 ccsort [options] <filename>
 ```
 
+#### Available Options
+- `-u`: Output only unique values (removes duplicates). Can work with other options
+Example: 
+```bash
+ccsort -u tests/words.txt
+```
+
+- `-r`: Sort the input using Radix Sort
+Example: 
+```bash
+ccsort -r tests/words.txt
+```
+
+- `-m`: Sort the input using Merge Sort
+Example: 
+```bash
+ccsort -m tests/words.txt
+```
+
+- `-q`: Sort the input using Quick Sort
+Example: 
+```bash
+ccsort -q tests/words.txt
+```
+
+- `-h`: Sort the input using Heap Sort
+Example: 
+```bash
+ccsort -h tests/words.txt
+```
+
+- `--random`: Sort the input using a random hashing sort
+Example: 
+```bash
+ccsort --random tests/words.txt
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
