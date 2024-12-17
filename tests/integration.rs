@@ -22,7 +22,7 @@ AND";
 }
 
 #[test]
-fn test_radix() {
+fn test_radix_sort() {
     let expected: &str = "\
 A\n\
 ACTUAL\n\
@@ -43,7 +43,7 @@ AND";
 }
 
 #[test]
-fn test_merge() {
+fn test_merge_sort() {
     let expected: &str = "\
 A\n\
 ACTUAL\n\
@@ -54,6 +54,26 @@ AND";
     let output = std::process::Command::new("bash")
         .arg("-c")
         .arg("cargo run -- -u -m tests/words.txt | head -n5")
+        .output()
+    .expect("failed to execute process");
+
+    let binding: Cow<str> = String::from_utf8_lossy(&output.stdout);
+    let actual: &str = binding.trim(); // Remove BOM character at the start
+
+    assert_eq!(expected, actual);
+}
+#[test]
+fn test_quick_sort() {
+    let expected: &str = "\
+A\n\
+ACTUAL\n\
+AGREE\n\
+AGREEMENT\n\
+AND";
+
+    let output = std::process::Command::new("bash")
+        .arg("-c")
+        .arg("cargo run -- -u -q tests/words.txt | head -n5")
         .output()
     .expect("failed to execute process");
 
