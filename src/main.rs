@@ -8,6 +8,7 @@ use ccsort::algorithms::{Algorithm, SortingAlgorithm};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+    let args = &args[1..];
 
     // Parse arguments and get both the options and stream
     let (options, stream) = parse_args(&args);
