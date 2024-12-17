@@ -2,5 +2,14 @@
 name = "ccsort"
 version = "0.1.0"
 edition = "2021"
+description = "A simple clone of the Unix sort command, with multiple sorting algorithms"
+license = "MIT"
+license-file = "LICENSE"
+homepage = "https://github.com/yildirimmurat/ccsort"
+repository = "https://github.com/yildirimmurat/ccsort"
+readme = "README.md"
+keywords = ["sort", "unix", "command-line", "sorting", "algorithms"]
+categories = ["command-line-utilities", "algorithms"]
 
 [dependencies]
+
