@@ -2,12 +2,14 @@ pub mod radix_sort;
 pub mod merge_sort;
 pub mod quick_sort;
 pub mod heap_sort;
+pub mod random_sort;
 
 pub enum Algorithm {
     RadixSort,
     MergeSort,
     QuickSort,
     HeapSort,
+    RandomSort,
 }
 
 pub trait SortingAlgorithm {
@@ -21,6 +23,7 @@ impl SortingAlgorithm for Algorithm {
             Algorithm::MergeSort => merge_sort::sort(arr),
             Algorithm::QuickSort => quick_sort::sort(arr),
             Algorithm::HeapSort => heap_sort::sort(arr),
+            Algorithm::RandomSort => random_sort::sort(arr),
         }
     }
 }

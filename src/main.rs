@@ -41,6 +41,9 @@ fn main() {
             "-h" => {
                 algorithm = Some(Algorithm::HeapSort);
             },
+            "--random" => {
+                algorithm = Some(Algorithm::RandomSort);
+            },
             _ => {
                 eprintln!("Unexpected: Unknown option: {}", option);
             }
