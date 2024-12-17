@@ -1,4 +1,5 @@
 # Unix Sort Tool Clone
+[![Crates.io](https://img.shields.io/crates/v/ccsort.svg)](https://crates.io/crates/ccsort)
 
 This is a clone of unix `sort` tool
 
